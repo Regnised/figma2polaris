@@ -1,0 +1,60 @@
+---
+description: Translate Figma designs into Shopify Polaris React components for this project
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# Figma → Shopify Polaris Translation
+
+This project converts Figma designs (see `design/data.json`, `design/Frame *.svg`, `design/Frame *.png`) into React pages built with `@shopify/polaris`. Always prefer Polaris components over raw HTML/CSS.
+
+## Component mapping (from this project's design)
+
+| Figma pattern | Polaris component | Notes |
+|---|---|---|
+| Segmented tab switcher (e.g. "Workflows \| Functions") | `ButtonGroup variant="segmented"` + `<Button pressed>` | Not `Tabs` — Tabs are for full-page nav |
+| Filter row with tabs + search/filter/sort icons | `IndexFilters` + `useSetIndexFiltersMode` | Single composite — don't wire icons manually |
+| Table of records with selection | `IndexTable` inside `LegacyCard` + `useIndexResourceState` | Wrap every row in `<IndexTable.Row>` |
+| Status pill | `Badge` with `tone` prop | `attention` (orange), `success` (green), `warning`, `critical`, `info` |
+| "Create new ▾" dropdown button | `<Button disclosure>` | Pair with `Popover` + `ActionList` for the menu |
+| Pagination control | `Pagination` with `label` prop | Right-align via `<InlineStack align="end">` |
+| Dark filled primary button | `<Button variant="primary">` | |
+| Spacing/stacking | `BlockStack` (vertical) / `InlineStack` (horizontal) | Do **not** use deprecated `Stack` / `Inline` |
+
+## Deprecated components — never use
+
+Use the non-deprecated replacements:
+
+```tsx
+// BAD
+import { Stack, Inline, Card, Tabs, Heading } from '@shopify/polaris';
+
+// GOOD
+import {
+  BlockStack,      // replaces Stack (vertical)
+  InlineStack,     // replaces Inline (horizontal)
+  LegacyCard,      // when you need the old Card behavior
+  Card,            // prefer the new Card for new surfaces
+  Text,            // replaces Heading, DisplayText, Subheading, Caption, TextStyle
+} from '@shopify/polaris';
+```
+
+## Color / token handling
+
+- Never hardcode `rgba(...)` from Figma fills. Let Polaris components handle color via their `tone`/`variant` props.
+- The Figma `VARIABLE_ALIAS` tokens in `data.json` cannot be resolved — `design/variables.json` returns enterprise-only. Fall back to semantic Polaris props.
+
+## Required file pattern
+
+A generated Polaris page should:
+
+1. Be a default-exported functional component
+2. Wrap content in `<Page>` (optional `title`, `primaryAction`, `backAction`)
+3. Use `BlockStack gap="400"` for vertical sections
+4. Keep data arrays (`ITEMS`, etc.) as module-level constants until wired to an API
+
+## Reference
+
+- Components: https://polaris-react.shopify.com/components
+- App design guidelines: https://shopify.dev/docs/apps/design
+- Existing example in this repo: `WorkflowsPage.tsx`

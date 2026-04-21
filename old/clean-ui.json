@@ -1,0 +1,59 @@
+{
+  "type": "frame",
+  "layout": "vertical",
+  "children": [
+    {
+      "type": "frame",
+      "layout": "horizontal",
+      "children": [
+        {
+          "type": "frame",
+          "layout": "horizontal",
+          "children": []
+        },
+        {
+          "type": "button",
+          "label": "Create new",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "layout": "vertical",
+          "children": []
+        },
+        {
+          "type": "frame",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "layout": "horizontal",
+              "children": [
+                {
+                  "type": "button",
+                  "label": null,
+                  "variant": "default"
+                },
+                {
+                  "type": "text",
+                  "value": "1-10 of 12"
+                },
+                {
+                  "type": "button",
+                  "label": null,
+                  "variant": "default"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

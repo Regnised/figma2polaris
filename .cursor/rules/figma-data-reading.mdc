@@ -1,0 +1,29 @@
+---
+description: Rules for reading and processing the large Figma export files in design/
+globs: design/**
+alwaysApply: false
+---
+
+# Reading Figma Export Files
+
+`design/data.json` is a **~58,000 line** Figma `/nodes` API response. Naive reads will fail or waste tokens.
+
+## Rules
+
+1. **Never `Read` `design/data.json` without `offset`/`limit`.** Default limit: 200 lines.
+2. **Prefer `Grep` for targeted lookups** by node id, name, type, or property:
+   - `rg '"type": "TEXT"' design/data.json -c` — count node types
+   - `rg -A 5 '"name": "Switcher"' design/data.json` — find a specific component
+3. **Use `design/Frame *.png` and `design/Frame *.svg`** for visual understanding — read the PNG as an image instead of scanning JSON whenever the goal is layout/look.
+4. **`design/variables.json` is enterprise-gated** — it returns an empty `styles` array and an error note. Do not attempt to resolve `VARIABLE_ALIAS` IDs through it; fall back to raw `color.r/g/b/a` in each fill.
+
+## Key facts about `data.json`
+
+- 605 nodes, max depth 12, single root `FRAME` (id `4036:61288`)
+- Node types: FRAME (182), INSTANCE (217), TEXT (129), VECTOR (73), RECTANGLE (2), GROUP (2)
+- Layout uses auto-layout (`layoutMode: HORIZONTAL/VERTICAL`) → maps to Flexbox
+- Fills: mostly `SOLID`, one `GRADIENT_LINEAR`, no `IMAGE` fills
+- Effects: 25 `INNER_SHADOW`, 1 `DROP_SHADOW`
+- 73 `VECTOR` nodes have no children — render as SVG, not as HTML
+
+See `figma_json_to_html_css_parser_b62a3654.plan.md` for the full parser plan.

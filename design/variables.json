@@ -1,0 +1,13 @@
+
+{
+  "error": false,
+  "status": 200,
+  "meta": {
+    "styles": []
+  },
+  "info": {
+    "name": "Variables",
+    "description": "!!! Only enterprise plan can use this api. My description is here.",
+    "version": "1.0.0"
+  }
+}
