@@ -65,6 +65,13 @@ Writes output to:
 
 - `design/variables.json`
 
+### Generated designs
+
+https://codesandbox.io/p/devbox/headless-pond-hqdqpq?workspaceId=ws_NFhxF2iqNxg4McAjLAZX8X
+
+https://codesandbox.io/p/devbox/gifted-feather-xqk9lv?workspaceId=ws_NFhxF2iqNxg4McAjLAZX8X
+
+
 ## Security Notes
 
 - Do not hardcode tokens in source files.
